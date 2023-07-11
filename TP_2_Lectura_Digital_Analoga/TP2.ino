@@ -1,93 +1,68 @@
-#define RGBG 3
-#define RGBB 5
-#define RGBR 6
-#define RGBG2 9
-#define RGBB2 10
-#define RGBR2 11
-#define pulsador 2
-#define potenciometro A0
-int lectura = 0;
+#define Led1_R 2
+#define Led1_A 3
+#define Led1_V 4
+
+#define Led2_R 6
+#define Led2_A 7
+#define Led2_V 8
+
+#define Led3_R 8
+#define Led3_A 9
+#define Led3_V 10
+
+#define boton 12
+
+int p=A0;
+int pot_v;
+int m;
+
 void setup()
 {
-pinMode(pulsador,INPUT);
+  pinMode( Led1_R, OUTPUT);
+  pinMode( Led1_A, OUTPUT);
+  pinMode( Led1_V, OUTPUT);
+  
+  pinMode( Led2_R, OUTPUT);
+  pinMode( Led2_A, OUTPUT);
+  pinMode( Led2_V, OUTPUT);
+  
+  pinMode( Led3_R, OUTPUT);
+  pinMode( Led3_A, OUTPUT);
+  pinMode( Led3_V, OUTPUT);
+  pinMode( boton, INPUT);
+  Serial.begin(9600);
 }
 
 void loop()
 {
-lectura =map(analogRead(0),0,1024,50,600);
-int estado = digitalRead(pulsador);
-  if(estado==1){
-    analogWrite(RGBG,100);
-    analogWrite(RGBB,0);
-    analogWrite(RGBR,200);
-    delay(lectura);
-    analogWrite(RGBG,0);
-    analogWrite(RGBB,255);
-    analogWrite(RGBR,255);
-    delay(lectura);
-    analogWrite(RGBG,0);
-    analogWrite(RGBB,0);
-    analogWrite(RGBR,255);
-    delay(lectura);
-    analogWrite(RGBG,255);
-    analogWrite(RGBB,0);
-    analogWrite(RGBR,255);
-    delay(lectura);
-    
-    analogWrite(RGBG2,0);
-    analogWrite(RGBB2,0);
-    analogWrite(RGBR2,0);
-    delay(lectura);
-    analogWrite(RGBG2,0);
-    analogWrite(RGBB2,0);
-    analogWrite(RGBR2,0);
-    delay(lectura);
-    analogWrite(RGBG2,0);
-    analogWrite(RGBB2,0);
-    analogWrite(RGBR2,0);
-    delay(lectura);
-    analogWrite(RGBG2,0);
-    analogWrite(RGBB2,0);
-    analogWrite(RGBR2,0);
-    delay(lectura);
-     
-      
-    }
-  else{
-    analogWrite(RGBG,0);
-    analogWrite(RGBB,0);
-    analogWrite(RGBR,0);
-    delay(lectura);
-    analogWrite(RGBG,0);
-    analogWrite(RGBB,0);
-    analogWrite(RGBR,0);
-    delay(lectura);
-    analogWrite(RGBG,0);
-    analogWrite(RGBB,0);
-    analogWrite(RGBR,0);
-    delay(lectura);
-    analogWrite(RGBG,0);
-    analogWrite(RGBB,0);
-    analogWrite(RGBR,0);
-    delay(lectura);
-    
-    analogWrite(RGBG2,100);
-    analogWrite(RGBB2,0);
-    analogWrite(RGBR2,200);
-    delay(lectura);
-    analogWrite(RGBG2,0);
-    analogWrite(RGBB2,255);
-    analogWrite(RGBR2,255);
-    delay(lectura);
-    analogWrite(RGBG2,0);
-    analogWrite(RGBB2,0);
-    analogWrite(RGBR2,255);
-    delay(lectura);
-    analogWrite(RGBG2,255);
-    analogWrite(RGBB2,0);
-    analogWrite(RGBR2,255);
-    delay(lectura);
-    
- }
- 
+  pot_v=analogRead(p);
+  m=map(pot_v,0,1000,250,500);
+  Serial.println(m);
+  
+  if(digitalRead(boton)==HIGH)
+  {
+  analogWrite (Led1_R , 255);
+  delay(m);
+  analogWrite(Led1_R,0);
+  delay(m);
+  digitalWrite (Led2_R , HIGH);
+  digitalWrite (Led2_A ,HIGH);
+  delay(m);
+  digitalWrite (Led2_R , LOW);
+  digitalWrite (Led2_A ,LOW);
+  delay(m);
+  analogWrite (Led3_A,100);
+  analogWrite (Led3_V,100);
+  delay(m);
+  analogWrite (Led3_A,0);
+  analogWrite (Led3_V,0);
+  delay(m);
+  }else
+  {
+    analogWrite(Led1_R,0);
+    digitalWrite (Led2_R , LOW);
+    digitalWrite (Led2_A ,LOW);
+    analogWrite (Led3_A,0);
+    analogWrite (Led3_V,0);
+  }
 }
